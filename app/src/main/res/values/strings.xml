@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ScanBox</string>
+    <string name="scanBtn">Scan</string>
+    <string name="saveBtn">Save</string>
+</resources>
