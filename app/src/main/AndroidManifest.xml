@@ -4,7 +4,7 @@
     >
 
 <!--    카메라 권한을 허용하는 태그. -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
@@ -22,9 +22,18 @@
         tools:replace="android:appComponentFactory"
         android:appComponentFactory="whateverString">
 <!--        camera_allow.xml의 데이터를 접근하는 권한을 부여하는 provider-->
+<!--        <provider-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:authorities="com.example.scanbox"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/camera_allow" />-->
+<!--        </provider>-->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.scanbox"
+            android:authorities="com.example.scanbox.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -33,6 +42,15 @@
         </provider>
         <activity
             android:name=".MainActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".InitialMenu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

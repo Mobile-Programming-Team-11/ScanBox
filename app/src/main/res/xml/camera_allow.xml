@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
 <!--    앱이 사용하는 경로를 지정하여 의 카메라 권한을 허용하게 돕는 역할-->
-    <external-path
+<!--    <external-path-->
+<!--        name="my_image"-->
+<!--        path="Android/data/com.example.Scanbox/files"/>-->
+    <external-files-path
         name="my_image"
-        path="Android/data/com.example.Scanbox/files"/>
+        path="Pictures/" />
 </paths>

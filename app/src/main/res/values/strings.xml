@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">ScanBox</string>
     <string name="scanBtn">Scan</string>
-    <string name="saveBtn">Save</string>
+    <string name="loadBtn">Load</string>
+    <string name="cptdImage">Captured Image</string>
+    <string name="searchBtn">Search</string>
+    <string name="initialMenuText">Welcome to ScanBox!
+    Select your Image File, or Take a Picture!</string>
+    <string name="InitialBtn">Start</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
