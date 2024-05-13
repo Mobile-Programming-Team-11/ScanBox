@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DisplayImageFragment"
+    android:id="@+id/fragment_container"
+    >
+
+    <ImageView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"/>
+<!--   android:scaleType="fitCenter" = 사진의 사이즈를 휴대폰 가로에 맞춰서 출력하도록. -->
+
+</FrameLayout>
