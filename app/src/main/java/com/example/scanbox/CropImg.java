@@ -19,7 +19,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 
-public class MainActivity extends AppCompatActivity {
+public class CropImg extends AppCompatActivity {
     private static final int PICK_FROM_ALBUM = 0; // 앨범에서 사진 잘 가져왔을 때의 result code
     private Button btnPictureCrop;
     private ImageView imageView;
@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnPictureCrop = findViewById(R.id.btnPictureCrop);
-        imageView = findViewById(R.id.imageView);
+        //btnPictureCrop = findViewById(R.id.btnPictureCrop);
+        //imageView = findViewById(R.id.imageView);
 
         // 권한 처리
         AndPermission.with(this)
