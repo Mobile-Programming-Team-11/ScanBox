@@ -35,7 +35,8 @@ android {
 }
 
 dependencies {
-    implementation("com.yanzhenjie:permission:2.0.3")
+//    implementation("com.yanzhenjie:permission:2.0.3")
+    // 중복된 권한 부여 사용으로 인한 'INSTALL_FAILED_BAD_PERMISSION_GROUP' 발생. 해결책: 중복된 기능의 implementation을 지우자.
     implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
