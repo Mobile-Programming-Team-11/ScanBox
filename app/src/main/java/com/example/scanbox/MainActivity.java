@@ -1,30 +1,26 @@
 package com.example.scanbox;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.Manifest;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -47,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private String imageFilePath;
     private Uri photoUri;
     private Uri croppedImageUri;
-    private Button scanBtn;
-    private Button loadBtn;
-    private Button searchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,41 +55,19 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        TedPermission.with(getApplicationContext())
+        TedPermission.with(this)
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage("카메라 권한이 필요합니다")
                 .setDeniedMessage("거부하셨습니다")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES)
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
 
-        scanBtn = findViewById(R.id.scanBtn);
-        loadBtn = findViewById(R.id.loadBtn);
-        searchBtn = findViewById(R.id.searchBtn);
+        Button scanBtn = findViewById(R.id.scanBtn);
+        Button loadBtn = findViewById(R.id.loadBtn);
+        Button searchBtn = findViewById(R.id.searchBtn);
 
-        scanBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ignored) {
-                    ignored.printStackTrace();
-                    throw new RuntimeException("에러 발생");
-                }
-                if (photoFile != null) {
-                    photoUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.scanbox.fileprovider", photoFile);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-                }
-            }
-        });
-
-        loadBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, REQUEST_IMAGE_CROP);
-        });
-
+        scanBtn.setOnClickListener(v -> captureImage());
+        loadBtn.setOnClickListener(v -> loadImage());
         searchBtn.setOnClickListener(v -> {
             if (photoUri != null) {
                 cropImage(photoUri);
@@ -104,6 +75,38 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "사진이 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void captureImage() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                Log.e("MainActivity", "Error creating image file", ex);
+            }
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(this, "com.example.scanbox.fileprovider", photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    private void loadImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_IMAGE_CROP);
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        imageFilePath = image.getAbsolutePath();
+        return image;
     }
 
     private void saveImageToGallery() {
@@ -126,15 +129,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "Test" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        imageFilePath = image.getAbsolutePath();
-        return image;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -152,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (result != null && result.getUri() != null) {
                     croppedImageUri = result.getUri();
-                    displayImageFragment(croppedImageUri);
+                    displayProductSearchFragment(croppedImageUri);
                 }
             }
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -170,17 +164,17 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    PermissionListener permissionListener = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() {
-            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
-        }
+    private void displayProductSearchFragment(Uri imageUri) {
+        ProductSearchFragment fragment = new ProductSearchFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("queryImage", imageUri);
+        fragment.setArguments(args);
 
-        @Override
-        public void onPermissionDenied(List<String> deniedPermissions) {
-            Toast.makeText(getApplicationContext(), "권한이 거부됨", Toast.LENGTH_SHORT).show();
-        }
-    };
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
     private void cropImage(Uri uri) {
         CropImage.activity(uri)
@@ -188,4 +182,16 @@ public class MainActivity extends AppCompatActivity {
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(this);
     }
+
+    private final PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(MainActivity.this, "권한이 허용됨", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPermissionDenied(List<String> deniedPermissions) {
+            Toast.makeText(MainActivity.this, "권한이 거부됨", Toast.LENGTH_SHORT).show();
+        }
+    };
 }
