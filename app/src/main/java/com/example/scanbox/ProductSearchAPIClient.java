@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductSearchAPIClient {
+public class ProductSearchAPIClient {   //VisionAPI와 통신하여 제품 검색을 수행하는 기능. 이미지를 Base64기반으로 변환한 뒤, API 요청 및 응답 처리, 검색 결과를 리턴함.
 
     private static final int VISION_API_PRODUCT_MAX_RESULT = 5;
     private static final String VISION_API_URL = "https://us-central1-odml-codelabs.cloudfunctions.net/productSearch";
@@ -37,14 +37,14 @@ public class ProductSearchAPIClient {
         this.requestQueue = Volley.newRequestQueue(context);
     }
 
-    private String convertBitmapToBase64(Bitmap bitmap) {
+    private String convertBitmapToBase64(Bitmap bitmap) {   //Base64를 이용해 이미지를 인코딩
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
-    public Task<List<ProductSearchResult>> annotateImage(Bitmap image) throws JSONException {
+    public Task<List<ProductSearchResult>> annotateImage(Bitmap image) throws JSONException {   //VisionAPI에 이미지 주석을 다는 역할.
         TaskCompletionSource<List<ProductSearchResult>> apiSource = new TaskCompletionSource<>();
         Task<List<ProductSearchResult>> apiTask = apiSource.getTask();
 
@@ -74,7 +74,7 @@ public class ProductSearchAPIClient {
                 "  ]\n" +
                 "}";
 
-        requestQueue.add(new JsonObjectRequest(
+        requestQueue.add(new JsonObjectRequest( //제품 검색 결과 처리 및 참조된 이미지 리턴.
                 JsonObjectRequest.Method.POST,
                 VISION_API_URL + "/images:annotate?key=" + VISION_API_KEY,
                 new JSONObject(requestJson),

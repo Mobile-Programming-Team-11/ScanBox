@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         TedPermission.with(this)
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage("카메라 권한이 필요합니다")
-                .setDeniedMessage("거부하셨습니다")
+//                .setDeniedMessage("거부하셨습니다")
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void captureImage() {
+    private void captureImage() {   //카메라를 이용한 사진 찍기
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void loadImage() {
+    private void loadImage() {  //crop한 이미지 다시 불러오기
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_IMAGE_CROP);

@@ -22,7 +22,7 @@ import org.json.JSONException;
 import java.io.InputStream;
 import java.util.List;
 
-public class ProductSearchFragment extends Fragment {
+public class ProductSearchFragment extends Fragment {   //VisionAPI를 이용한 제품 검색 수행 기능.
 
     public static final String TAG = "ProductSearchFragment";
     private FragmentProductSearchBinding binding;
@@ -57,7 +57,7 @@ public class ProductSearchFragment extends Fragment {
         initViews();
     }
 
-    private void initViews() {
+    private void initViews() {  //검색 결과를 fragment 하단 recyclerView에 표시하는 기능.
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerView.setAdapter(new ProductSearchAdapt());

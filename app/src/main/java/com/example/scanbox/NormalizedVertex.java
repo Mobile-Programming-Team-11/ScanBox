@@ -1,6 +1,6 @@
 package com.example.scanbox;
 
-public class NormalizedVertex {
+public class NormalizedVertex { //바운딩 폴리곤의 꼭지점 좌표.
     private double x;
     private double y;
 

@@ -8,10 +8,11 @@ public class ProductSearchResult {
     private String imageUri;
 
     public ProductSearchResult(String imageId, double score, String label, String name) {
-        this.imageId = imageId;
-        this.score = score;
-        this.label = label;
-        this.name = name;
+        //VisionAPI로부터 받은 개별 제품 검색 결과 표시.
+        this.imageId = imageId; //검색된 이미지 ID
+        this.score = score; //제품 라벨 정보
+        this.label = label; //제품 이름
+        this.name = name;   //참조이미지 URL
     }
 
     public String getImageId() {

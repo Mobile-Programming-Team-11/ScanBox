@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class DisplayImageFragment extends Fragment {
+    //이미지를 activity_main.xml에 표시하는 역할
 
     private Uri imageUri;
 

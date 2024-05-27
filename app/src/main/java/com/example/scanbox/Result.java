@@ -1,9 +1,9 @@
 package com.example.scanbox;
 
-public class Result {
-    private Product product;
-    private double score;
-    private String image;
+public class Result {   //개별 제품 검색 결과
+    private Product product;    //제품 정보
+    private double score;   //유사도
+    private String image;   //이미지 URL
 
     public Product getProduct() {
         return product;

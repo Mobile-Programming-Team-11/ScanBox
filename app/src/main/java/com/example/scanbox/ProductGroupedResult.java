@@ -2,9 +2,9 @@ package com.example.scanbox;
 
 import java.util.List;
 
-public class ProductGroupedResult {
+public class ProductGroupedResult { //특정 바운딩 폴리곤 내의 그룹화된 제품 검색 결과 표시.
     private BoundingPoly boundingPoly;
-    private List<Result> results;
+    private List<Result> results;   //바운딩 폴리곤 내의 개별 결과 리스트
 
     public BoundingPoly getBoundingPoly() {
         return boundingPoly;

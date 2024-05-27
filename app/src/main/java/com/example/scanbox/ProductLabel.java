@@ -1,6 +1,6 @@
 package com.example.scanbox;
 
-public class ProductLabel {
+public class ProductLabel { //해당 제품 라벨 정보
     private String key;
     private String value;
 

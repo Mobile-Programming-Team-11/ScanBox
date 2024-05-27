@@ -2,7 +2,7 @@ package com.example.scanbox;
 
 import java.util.List;
 
-public class Product {
+public class Product {  //제품 정보 표시
     private String name;
     private String displayName;
     private String productCategory;
