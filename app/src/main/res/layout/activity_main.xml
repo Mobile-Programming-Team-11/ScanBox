@@ -47,10 +47,10 @@
             android:text="@string/loadBtn"
             />
         <Button
-            android:id="@+id/searchBtn"
+            android:id="@+id/cropBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/searchBtn"
+            android:text="@string/cropBtn"
         />
     </LinearLayout>
 

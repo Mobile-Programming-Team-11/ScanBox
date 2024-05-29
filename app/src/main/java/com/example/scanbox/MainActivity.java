@@ -57,14 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
         TedPermission.with(this)
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage("카메라 권한이 필요합니다")
+//                .setRationaleMessage("카메라 권한이 필요합니다")
 //                .setDeniedMessage("거부하셨습니다")
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
 
         Button scanBtn = findViewById(R.id.scanBtn);
         Button loadBtn = findViewById(R.id.loadBtn);
-        Button searchBtn = findViewById(R.id.searchBtn);
+        Button searchBtn = findViewById(R.id.cropBtn);
 
         scanBtn.setOnClickListener(v -> captureImage());
         loadBtn.setOnClickListener(v -> loadImage());
