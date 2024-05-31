@@ -4,8 +4,7 @@
     <string name="loadBtn">Load</string>
     <string name="cptdImage">Captured Image</string>
     <string name="searchBtn">Search</string>
-    <string name="initialMenuText">Welcome to ScanBox!
-    Select your Image File, or Take a Picture!</string>
+    <string name="initialMenuText">ScanBox</string>
     <string name="InitialBtn">Start</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

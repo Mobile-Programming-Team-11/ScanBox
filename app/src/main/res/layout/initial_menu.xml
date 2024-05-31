@@ -1,34 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/camera"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<!--    앱 시작 시 초기 화면.-->
 
+    <!-- 앱 시작 시 초기 화면. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/fashion"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- 텍스트와 버튼을 포함한 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/white"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="250dp"
         android:text="@string/initialMenuText"
         android:textAlignment="center"
         android:textSize="35sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        />
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp" /> <!-- 텍스트 아래 여백 추가 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@color/gray"
+            android:orientation="vertical">
 
-<!--    카메라 촬영 버튼 부분을 누르면 앱 시작.-->
-    <Button
-        android:id="@+id/openBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="330dp"
-        android:background="@android:color/transparent"
-        android:text="@string/InitialBtn"
-        android:textColor="#FF3333"
-        />
+            <!-- 카메라 촬영 버튼 부분을 누르면 앱 시작. -->
+            <android.widget.Button
+            android:id="@+id/openBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button"
+            android:text="@string/InitialBtn"
+                android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
 
+            android:textColor="#000000" />
+    </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

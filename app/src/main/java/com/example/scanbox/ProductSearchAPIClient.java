@@ -26,7 +26,7 @@ public class ProductSearchAPIClient {   //VisionAPI와 통신하여 제품 검�
 
     private static final int VISION_API_PRODUCT_MAX_RESULT = 5;
     private static final String VISION_API_URL = "https://us-central1-odml-codelabs.cloudfunctions.net/productSearch";
-    private static final String VISION_API_KEY = "";
+    private static final String VISION_API_KEY = "AIzaSyA5fXrrBW2KO6lrrEbaW8z1GyxE-MdKun0";
     private static final String VISION_API_PROJECT_ID = "odml-codelabs";
     private static final String VISION_API_LOCATION_ID = "us-east1";
     private static final String VISION_API_PRODUCT_SET_ID = "product_set0";

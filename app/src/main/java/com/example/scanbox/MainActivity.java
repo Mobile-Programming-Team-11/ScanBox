@@ -13,6 +13,11 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Handler;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -34,6 +39,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,10 +62,33 @@ public class MainActivity extends AppCompatActivity {
     private Uri photoUri;
     private Uri croppedImageUri;
 
+    private ViewPager viewPager;
+    private int[] images = {R.drawable.scan1, R.drawable.scan2, R.drawable.scan3, R.drawable.scan6, R.drawable.scan5};
+    private Handler handler;
+    private int delay = 1100; // 1.1초
+    private int currentPage = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        viewPager = findViewById(R.id.viewPager);
+        PagerAdapter adapter = new ImagePagerAdapter();
+        viewPager.setAdapter(adapter);
+
+        // 자동으로 페이지를 전환하기 위해 핸들러를 사용
+        viewPager.postDelayed(new Runnable() {
+            public void run() {
+                if (currentPage == images.length) {
+                    currentPage = 0;
+                }
+                viewPager.setCurrentItem(currentPage++, true);
+                viewPager.postDelayed(this, delay);
+            }
+        }, delay);
+
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -55,12 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage("카메라 권한이 필요합니다")
-//                .setDeniedMessage("거부하셨습니다")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();
+
 
         Button scanBtn = findViewById(R.id.scanBtn);
         Button loadBtn = findViewById(R.id.loadBtn);
@@ -75,6 +111,30 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "사진이 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private class ImagePagerAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return images.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView imageView = new ImageView(MainActivity.this);
+            imageView.setImageResource(images[position]);
+            container.addView(imageView);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((ImageView) object);
+        }
     }
 
     private void captureImage() {   //카메라를 이용한 사진 찍기
